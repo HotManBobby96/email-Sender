@@ -9,7 +9,6 @@ sender_email = "" # email I will be sending from
 receiver_email = [] #intlazing the list of emails for me to send to
 password = "" # special app password
 subject = "yuh"
-body = "body"
 
 # Set up the server
 smtp_server = "smtp.gmail.com" # the server we are using for the google thing
@@ -24,18 +23,24 @@ def printEmails(emails): # funtion to read the list of emails
   for email in emails:
     print(email)
 
-def createEmails(emails, subject, sender, body, password, smpt, port):
+def buildBody(email):
+   body = "Hello, I am yuhh, asking for: " + email + " We are asking for something n       james-."
+   return body
+
+def createEmails(emails, subject, sender, password, smpt, port):
 
     server = smtplib.SMTP(smtp_server, port)
     server.starttls()  # Secure the connection
     server.login(sender_email, password)
 
     for email in emails:
+        conCatBody = buildBody(email)
+
         message = MIMEMultipart()
         message["From"] = sender
         message["To"] = email
         message["Subject"] = subject
-        body = body
+        body = conCatBody
         message.attach(MIMEText(body, "plain"))
         print(email)
 
@@ -48,6 +53,6 @@ def createEmails(emails, subject, sender, body, password, smpt, port):
 #main
 receiver_email.extend(readFile(path))
 printEmails(receiver_email)
-createEmails(receiver_email, subject, sender_email, body, password, smtp_server, port)
+createEmails(receiver_email, subject, sender_email, password, smtp_server, port)
 
 
